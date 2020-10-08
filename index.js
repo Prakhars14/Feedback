@@ -3,7 +3,7 @@ const mongoose=require('mongoose');
 const cookieSession=require('cookie-session');
 const authRoutes=require('./routes/authRoutes');
 const billingRoutes=require('./routes/billingRoutes');
-const surveyRotes=require('./routes/surveyRoutes');
+const surveyRoutes=require('./routes/surveyRoutes');
 const keys=require('./config/keys');
 const passport = require('passport');
 const bodyParser=require('body-parser');
@@ -30,7 +30,7 @@ app.use(passport.session());
 
 authRoutes(app);
 billingRoutes(app);
-surveyRotes(app);
+surveyRoutes(app);
 
 if(process.env.NODE_ENV==='production'){
 //Express will serve up production assets(main.js, main.css)

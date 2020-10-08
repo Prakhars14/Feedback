@@ -3,11 +3,11 @@ const requireLogin=require('../middlewares/requireLogin');
 const requireCredits=require('../middlewares/requireCredits');
 const Mailer=require('../services/Mailer');
 const surveyTemplate=require('../services/emailTemplates/surveyTemplate');
-
+const SurveySchema = require('../models/Survey')
 const Survey=mongoose.model('surveys');
 
-module.exports=()=>{
-    app.post('/api/surveys',requireLogin,requireCredits,(req, res)=>{
+module.exports=(app)=>{
+    app.post('/api/surveys',requireLogin,requireCredits,async (req, res)=>{
         const {title, subject, body, recipients}=req.body;
         const survey=new Survey({
             title,
@@ -20,5 +20,15 @@ module.exports=()=>{
 
         //send email
         const mailer=new Mailer(survey,surveyTemplate(survey));
+        try{
+        await mailer.send();
+        await survey.save();
+        // req.user.credit-=1;
+        // const user=await req.user.save();
+        res.send(user);
+        }
+        catch(err){
+            res.status(422).send(err);
+        }
     });
 }
