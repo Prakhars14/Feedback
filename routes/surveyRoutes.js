@@ -6,10 +6,9 @@ const requireCredits = require("../middlewares/requireCredits");
 const surveyTemplate = require("../services/emailTemplates/surveyTemplate");
 const User = require("../models/User");
 const Survey = require("../models/Survey");
+const keys = require("../config/keys");
 const sgMail = require("@sendgrid/mail");
-sgMail.setApiKey(
-  "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"
-);
+sgMail.setApiKey(keys.sendGridKey);
 module.exports = (app) => {
   app.get("/api/surveys", requireLogin, async (req, res) => {
     const surveys = await Survey.find({ _user: req.user.id }).select({
