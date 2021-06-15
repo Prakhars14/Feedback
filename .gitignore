@@ -1,2 +1,4 @@
-node_modules
-dev.js
+.env
+# production
+node_modules/
+# client/telegram/
